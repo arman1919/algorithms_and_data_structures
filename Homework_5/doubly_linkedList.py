@@ -1,18 +1,18 @@
-class SelfOrganizingNode:
+class Node:
     def __init__(self, value=None, prev=None, next=None) -> None:
         self.value = value
         self.prev = prev
         self.next = next
 
-class SelfOrganizingLinkedList:
+class doubly_linkedList:
     def __init__(self) -> None:
-        self._head = SelfOrganizingNode()
-        self._tail = SelfOrganizingNode()
+        self._head = Node()
+        self._tail = Node()
         self._head.next = self._tail
         self._tail.prev = self._head
 
-    def add_node(self, value):
-        new_node = SelfOrganizingNode(value, prev=self._tail.prev, next=self._tail)
+    def push_back(self, value):
+        new_node = Node(value, prev=self._tail.prev, next=self._tail)
         self._tail.prev.next = new_node
         self._tail.prev = new_node
 
@@ -44,21 +44,8 @@ class SelfOrganizingLinkedList:
             s += 1
         return s
 
-    def move_to_front(self, value):
-        current = self._head.next
-        while current != self._tail:
-            if current.value == value:
-                
-                current.prev.next = current.next
-                current.next.prev = current.prev
-                current.prev = self._head
-                current.next = self._head.next
-                self._head.next.prev = current
-                self._head.next = current
-                return
-            current = current.next
 
-    def add_node_pos(self, pos, value):
+    def push_pos(self, pos, value):
         if self.get_size() < pos or pos < 1:
             raise IndexError
 
@@ -68,11 +55,11 @@ class SelfOrganizingLinkedList:
             current = current.next
             i += 1
 
-        new_node = SelfOrganizingNode(value, prev=current, next=current.next)
+        new_node = Node(value, prev=current, next=current.next)
         current.next.prev = new_node
         current.next = new_node
 
-    def pop_node_pos(self, pos):
+    def erase(self, pos):
         if self.get_size() < pos or pos < 1:
             raise IndexError
 
@@ -93,20 +80,60 @@ class SelfOrganizingLinkedList:
         print()
 
 
+    def clear(self):
+        self._head.next = None
+        self._tail.prev = None
+    
+    def empty(self):
+        return self._head.next == None
 
-ll = SelfOrganizingLinkedList()
+    def push_front(self,value):
+        new_node = Node(value,self._head,self._head.next)
+        if self._head.next != None:
+            temp = self._head.next
+            self._head.next.prev = new_node
+        self._head.next = new_node
+         
+    def front(self):
+        return self._head.next.value 
 
-ll.add_node(5)
-ll.add_node(1)
-ll.add_node(6)
-ll.add_node(3)
-ll.add_node(7)
-ll.add_node(4)
-ll.add_node(2)
+    def back(self):
+        return self._tail.prev.value
+
+    def resize(self,new_size):
+        if new_size > self.get_size()  or new_size < 0:
+            raise ValueError
+        current = self._head
+        for _ in  range(0,new_size):
+              current = current.next
+        
+        current.next = self._tail
+        self._tail.prev = current
+        
+
+
+
+ll = doubly_linkedList()
+
+ll.push_back(5)
+ll.push_back(1)
+ll.push_back(6)
+ll.push_back(3)
+ll.push_back(7)
+ll.push_back(4)
+ll.push_back(2)
+
 
 print(ll)
 
-ll.move_to_front(7)
+ll.erase(2)
 
 print(ll)
+
+print(ll.front())
+
+print(ll.back())
+
+
+
 

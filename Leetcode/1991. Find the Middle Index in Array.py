@@ -1,25 +1,22 @@
 def findMiddleIndex(nums: list[int]) -> int:
-    if len(nums) == 1:
-        return 0
-    if len(nums) == 2 and nums[0] > nums[1]:
-        return 0
-    summ = nums[0] + nums[1]   
-    for i in range(2,len(nums)):
-        if  i == len(nums)-1 and summ + nums[i] < summ:
-            summ += nums[i]
-            return summ
+    
+        totalSum = 0
+        for i in nums:
+            totalSum += i
         
-        if summ + nums[i] >= summ:
-            return i
-        else:
-            summ += nums[i]
+        leftSum = 0
+        
+        for i in range(len(nums)):
+            if leftSum == totalSum - leftSum - nums[i]:
+                return i
+            leftSum += nums[i]
+        
+        return -1
+    
+    
             
         
-    return -1
-    
-    
 
-
-nums =  [2,-3]
+nums =  [-3,-3,15]
 
 print(findMiddleIndex(nums))
