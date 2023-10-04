@@ -4,7 +4,7 @@ class Node:
         self.left = left
         self.right = right
 
-
+ 
 class BST:
     
     
@@ -25,15 +25,17 @@ class BST:
     def insert(self,val):
         self.root = self._help_inster(self.root,val)
             
-            
+    
+             
     def _help_get_hight(self,node):
         if not node:
             return -1
         return max(self._help_get_hight(node.left),self._help_get_hight(node.right))+1
     
-    
     def get_hight(self):
+       
         return self._help_get_hight(self.root)
+     
     
     def _h_delete(self,node,key):
         
@@ -121,20 +123,24 @@ class BST:
             it = it.right
         return it
     
-    def _h_search(self,node,val):
-        if not node:
-            return False
-        if node.val == val:
-            return True
+    
         
-        if node.val < val:
-            return self._h_search(node.right,val)
-        else:
-            return self._h_search(node.left,val)
         
         
     def search(self,val):
-        return self._h_search(self.root,val)
+        it = self.root
+        
+        while it:
+            if it.val == val:
+                return True
+            
+            if it.val > val:
+                it = it.left
+            else:
+                it = it.right
+        
+        return False
+        
     
     def _h_pre_order_traversal(self, node):
         if not node:
@@ -146,6 +152,7 @@ class BST:
 
     def pre_order_traversal(self):
         self._h_pre_order_traversal(self.root)
+    
     
     
     
@@ -188,6 +195,54 @@ class BST:
             self._print_tree(node.left, level + 1)
 
 
+    def h_Level_Order(self,node):
+        if not node:
+            return None
+        if not node:
+            return 
+        
+        self.levels[self.hight-self.get_hight(node)].append(node.val)
+        
+        self.h_Level_Order(node.left)
+        self.h_Level_Order(node.right)
+    
+
+            
+    
+        
+    def _get_lvl(self,node):
+        it = self.root
+        lvl = 0
+        while it is not node:
+            lvl += 1
+            if it.val > node.val:
+                it = it.left
+            
+            else:
+                it = it .right
+        
+        
+        return lvl
+                
+    def _in_order_lvl(self,node):
+        
+        if not node:
+            return 
+        
+        self.levels[self._get_lvl(node)].append(node.val)
+        self._in_order_lvl(node.left)
+        self._in_order_lvl(node.right)
+        
+    
+    def Level_Order_Traversal(self):
+        
+        self.hight = self.get_hight()
+        self.levels = [[] for _ in range(self.hight+1)]
+        
+        self._in_order_lvl(self.root)
+        return self.levels
+        
+
 tree = BST()
 
 
@@ -197,20 +252,10 @@ tree.insert(15)
 tree.insert(10)
 tree.insert(5)
 tree.insert(2)
+tree.insert(56)
 tree.insert(4)
-
-
+tree.insert(156)
 
 tree.print_tree()
-
-tree.in_order_traversal()
-print()
-tree.pre_order_traversal()
-print()
-tree.post_order_traversal()
-
-print()
-
-print(tree.get_predecessor(tree.root.left.right).val)
 
 

@@ -15,6 +15,7 @@ def time_calculation(func):
 def  insertion_sort(ls:list) -> list:
     
     len_list = len(ls)
+    
     for i in range(1, len_list):
         key = ls[i]
         j = i - 1
